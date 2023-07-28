@@ -108,7 +108,11 @@ def test_sigmoid(a: float) -> None:
     * It is  strictly increasing.
     """
     # TODO: Implement for Task 0.2.
-    raise NotImplementedError('Need to implement for Task 0.2')
+    assert sigmoid(a) <= 1.0 and sigmoid(a) >= 0.0
+    assert_close((1.0 - sigmoid(a)), sigmoid(-a))
+    assert sigmoid(0) == 0.5
+    assert sigmoid(a) <= sigmoid(a+1.0)
+    # raise NotImplementedError('Need to implement for Task 0.2')
 
 
 @pytest.mark.task0_2
@@ -126,7 +130,10 @@ def test_symmetric() -> None:
     gives the same value regardless of the order of its input.
     """
     # TODO: Implement for Task 0.2.
-    raise NotImplementedError('Need to implement for Task 0.2')
+    x = 2.0
+    y = 2.0
+    assert_close(mul(x, y), x*y)
+    # raise NotImplementedError('Need to implement for Task 0.2')
 
 
 @pytest.mark.task0_2
@@ -174,7 +181,8 @@ def test_sum_distribute(ls1: List[float], ls2: List[float]) -> None:
     is the same as the sum of each element of `ls1` plus each element of `ls2`.
     """
     # TODO: Implement for Task 0.3.
-    raise NotImplementedError('Need to implement for Task 0.3')
+    assert_close(sum(ls1+ls2), sum(addLists(ls1, ls2)))
+    # raise NotImplementedError('Need to implement for Task 0.3')
 
 
 @pytest.mark.task0_3

@@ -32,12 +32,26 @@ class Module:
     def train(self) -> None:
         "Set the mode of this module and all descendent modules to `train`."
         # TODO: Implement for Task 0.4.
-        raise NotImplementedError('Need to implement for Task 0.4')
+        child_ls = [self]
+        while child_ls:
+            child_ls_cp = child_ls
+            child_ls = []
+            for m in child_ls_cp:
+                m.training = True
+                child_ls += m.modules()
+        # raise NotImplementedError('Need to implement for Task 0.4')
 
     def eval(self) -> None:
         "Set the mode of this module and all descendent modules to `eval`."
         # TODO: Implement for Task 0.4.
-        raise NotImplementedError('Need to implement for Task 0.4')
+        child_ls = [self]
+        while child_ls:
+            child_ls_cp = child_ls
+            child_ls = []
+            for m in child_ls_cp:
+                m.training = False
+                child_ls += m.modules()
+        # raise NotImplementedError('Need to implement for Task 0.4')
 
     def named_parameters(self) -> Sequence[Tuple[str, Parameter]]:
         """
@@ -48,11 +62,39 @@ class Module:
             The name and `Parameter` of each ancestor parameter.
         """
         # TODO: Implement for Task 0.4.
+        res = []
+        child_ls = [self]
+        child_name_ls = ['']
+
+        while child_ls:
+            child_ls_cp = child_ls
+            child_name_ls_cp = child_name_ls
+            child_ls = []
+            child_name_ls = []
+            for m, n in zip(child_ls_cp, child_name_ls_cp):
+                for name, value in m.__dict__['_parameters'].items():
+                    name = n + name
+                    res.append((name, value))
+                for name, value in m.__dict__['_modules'].items():
+                    child_name_ls.append(n + name + '.')
+                    child_ls.append(value)
+        
+        return res
         raise NotImplementedError('Need to implement for Task 0.4')
 
     def parameters(self) -> Sequence[Parameter]:
         "Enumerate over all the parameters of this module and its descendents."
         # TODO: Implement for Task 0.4.
+        res = []
+        child_ls = [self]
+        while child_ls:
+            child_ls_cp = child_ls
+            child_ls = []
+            for m in child_ls_cp:
+                res += list(m.__dict__['_parameters'].values())
+                child_ls += m.modules()
+        
+        return res
         raise NotImplementedError('Need to implement for Task 0.4')
 
     def add_parameter(self, k: str, v: Any) -> Parameter:
